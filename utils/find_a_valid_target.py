@@ -21,7 +21,8 @@ def run_nrpc_target(username, secret, target, domain):
     try:
         with NRPCConnection(username, secret, target, domain) as nrpc:
             print("NRPC - OK")
-        return True, target
+            success = nrpc.get_domain_name() == domain
+        return success, target
     except:
         return False, target
 

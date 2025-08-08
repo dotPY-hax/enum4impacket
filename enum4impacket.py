@@ -3,10 +3,10 @@ import argparse
 from connections.nrpc import NRPCConnection
 from connections.samr import SamrConnection
 from connections.dns import resolve_list
-from connections.smb import SMBConnection
 from utils import pretty
 from utils.file_interaction import write_file
 from utils.find_a_valid_target import find_a_nrpc_target
+from utils.get_smb_info import get_smb_info_list
 
 if __name__ == "__main__":
     description = "enum4impacket by dotpy - enumerate active directory\nhttps://github.com/dotPY-hax"
@@ -59,33 +59,11 @@ if __name__ == "__main__":
         resolved_computers = resolve_list(computers, domain_controller_ip)
         pretty.print_columns(resolved_computers)
 
-    smb_info = []
-    domain_controllers = [domain_controller_ip]
-    for computer, ip in resolved_computers:
-        shares = ["NO ACCESS"]
-        try:
-            with SMBConnection("", "", ip, domain) as smb:
-                no_signing = smb.isSigningRequired()
-        except:
-            continue
+    # smb_info and domain controllers here
+    ips = [resolved[1] for resolved in resolved_computers]
+    smb_info, domain_controllers = get_smb_info_list(ips, username, secret, domain)
+    domain_controllers = list(set(domain_controllers + [domain_controller_ip]))
 
-        try:
-            with SMBConnection(username, secret, ip, domain) as smb:
-                no_signing = smb.isSigningRequired()
-                shares = smb.listShares()
-
-        except:
-            pass
-
-        try:
-            with NRPCConnection(username, secret, ip, domain) as nrpc:
-                domain_controller_ip, domain_controller_name = nrpc.get_primary_domain_controller()
-                domain_controllers.append(domain_controller_ip)
-                domain_controllers = list(set(domain_controllers))
-        except:
-            pass
-
-        smb_info.append([ip, no_signing, shares])
     share_info = [[i[0], ", ".join(i[2])] for i in smb_info]
     signing_info = [[i[0], i[1]] for i in smb_info]
 

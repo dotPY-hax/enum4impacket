@@ -33,3 +33,6 @@ class NRPCConnection:
     def get_domain_name(self):
         response = nrpc.hDsrGetDcNameEx(self.dce, NULL, NULL, NULL, NULL, 0)
         return response['DomainControllerInfo']["DomainName"][:-1]
+
+    def get_os_version(self, ):
+        response = nrpc.hNetrLogonGetDomainInfo(self.dce, )
