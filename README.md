@@ -81,5 +81,4 @@ CASTELBLACK.north.sevenkingdoms.local  : 192.168.56.22
 It only works on a single domain so far.\
 It likely requires one user.\
 It requires a domain name.\
-It will break if the autofind (when using cidr) finds a computer that belongs to a different domain than the domain provided with -d.\
 It has not been tested outside of GOAD yet.
