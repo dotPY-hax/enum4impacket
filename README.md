@@ -81,4 +81,4 @@ CASTELBLACK.north.sevenkingdoms.local  : 192.168.56.22
 It only works on a single domain so far.\
 It likely requires one user.\
 It requires a domain name.\
-It has not been tested outside of GOAD yet.
+~~It has not been tested outside of GOAD yet.~~
