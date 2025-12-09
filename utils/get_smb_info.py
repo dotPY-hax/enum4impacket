@@ -4,14 +4,14 @@ from connections.nrpc import NRPCConnection
 from connections.smb import SMBConnection
 
 def get_smb_info(ip, username, secret, domain):
-    shares = ["NO ACCESS"]
+    shares = [None]
     no_signing = None
     domain_controller_ip = None
     try:
         with SMBConnection("", "", ip, domain) as smb:
             no_signing = smb.isSigningRequired()
     except:
-        pass
+        shares = ["NO ACCESS"]
 
     try:
         with SMBConnection(username, secret, ip, domain) as smb:
@@ -19,7 +19,7 @@ def get_smb_info(ip, username, secret, domain):
             shares = smb.listShares()
 
     except:
-        pass
+        shares = ["NO ACCESS"]
 
     try:
         with NRPCConnection(username, secret, ip, domain) as nrpc:

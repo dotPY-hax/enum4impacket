@@ -12,7 +12,7 @@ def _resolve_one(resolver, fqdn):
                 continue
             return [fqdn, resolved_ip]
     except Exception as e:
-        print(e)
+        pass
         # pass #kekw
 
 
