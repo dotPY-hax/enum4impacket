@@ -83,7 +83,7 @@ if __name__ == "__main__":
 
     write_file(domain_controllers, filename("domain_controllers.txt"))
     write_file([i[0] for i in users], filename("users.txt"))
-    write_file([list(set(i[1])) for i in resolved_computers], filename("computers.txt"))
+    write_file(list(set([i[1] for i in resolved_computers])), filename("computers.txt"))
     write_file([i[0] for i in resolved_computers], filename("hostnames.txt"))
     write_file([i[0] for i in signing_info if not i[1]], filename("relay.txt"))
     write_file(pretty.format_columns(users), filename("user_descriptions.txt"))
